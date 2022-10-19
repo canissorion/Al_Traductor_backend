@@ -1,3 +1,0 @@
-## Backend
-
-### Concatenación de fonemas
