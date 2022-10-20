@@ -1,5 +1,6 @@
 import typing as t
 from fastapi import FastAPI, types as ft
+
 from api.translation.adapters.request import TranslationRequest
 from api.translation.adapters.response import TranslationResponse
 from core.translation.features.translate import TranslateFeature

@@ -1,9 +1,8 @@
 # TODO(davideliseo): Implementar.
-class TranslateFeature:
+class SynthesizeFeature:
     def __call__(
         self,
-        source_language_code: str,
-        target_language_code: str,
+        language_code: str,
         text: str,
     ) -> str:
         return NotImplemented.__str__()
