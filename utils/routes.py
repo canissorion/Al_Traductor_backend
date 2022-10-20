@@ -1,4 +1,5 @@
 from fastapi import FastAPI
+from api.languages.controllers.languages import LanguagesController
 from api.translation.controllers.translate import TranslateController
 from api.tts.controllers.tts import TTSController
 
@@ -8,6 +9,7 @@ def register_routes(app: FastAPI) -> FastAPI:
     controllers = [
         TranslateController(app),
         TTSController(app),
+        LanguagesController(app),
     ]
 
     for controller in controllers:

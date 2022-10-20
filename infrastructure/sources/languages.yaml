@@ -1,0 +1,18 @@
+eng:
+    name: Inglés
+    traits:
+        source: true
+        target: true
+        tts: true
+spa:
+    name: Español
+    traits:
+        source: true
+        target: true
+        tts: true
+arn:
+    name: Mapudungún
+    traits:
+        source: true
+        target: true
+        tts: true
