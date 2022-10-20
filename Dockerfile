@@ -1,10 +1,10 @@
-FROM python:3.8.4-slim-buster
-COPY . usr/src/app
-WORKDIR /usr/src/app
-ENV FLASK_APP=app.py
-ENV FLASK_RUN_HOST=0.0.0.0
-#Server will reload itself on file changes if in dev mode
-ENV FLASK_ENV=development
-RUN python -m pip install --upgrade pip
-RUN pip install -r requirements.txt
-ENTRYPOINT flask RUN
+FROM python:3.10
+
+# Instalar las dependecias por separado para que Docker pueda cachearlas.
+WORKDIR /usr/src
+COPY ./requirements.txt /usr/src/requirements.txt
+RUN pip install --no-cache-dir --upgrade -r /usr/src/requirements.txt
+
+# Copiar el código del servicio y desplegarlo en el servidor uvicorn.
+COPY . /usr/src/app
+CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]
