@@ -1,17 +1,20 @@
 eng:
     name: Inglés
+    model: api
     traits:
         source: true
         target: true
         tts: true
 spa:
     name: Español
+    model: api
     traits:
         source: true
         target: true
         tts: true
 arn:
     name: Mapudungún
+    model: ml
     traits:
         source: true
         target: true

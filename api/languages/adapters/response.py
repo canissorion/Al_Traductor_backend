@@ -3,4 +3,4 @@ from core.language.entity import Language
 
 
 class LanguagesResponse(BaseModel):
-    languages: list[Language]
+    languages: list[Language] | None = None

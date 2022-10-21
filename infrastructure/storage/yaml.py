@@ -4,7 +4,7 @@ import yaml
 class YAMLStorage:
     filename: str
 
-    def __init__(self, filename) -> None:
+    def __init__(self, filename: str) -> None:
         self.filename = filename
 
     def read(self) -> dict | None:
