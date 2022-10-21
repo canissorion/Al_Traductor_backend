@@ -3,7 +3,7 @@ from fastapi import FastAPI, types as ft
 
 from api.tts.adapters.request import TTSRequest
 from api.tts.adapters.response import TTSResponse
-from core.synthesis.features.synthesize import SynthesizeFeature
+from core.synthesis.features.synthesize import SynthesizeSpeechFeature
 
 
 class TTSController:
@@ -15,7 +15,7 @@ class TTSController:
 
     def register(self) -> ft.DecoratedCallable:
         def method(request: TTSRequest) -> TTSResponse:
-            synthesize = SynthesizeFeature()
+            synthesize = SynthesizeSpeechFeature()
             speech = synthesize(*request.dict().values())
             return TTSResponse(speech=speech)
 

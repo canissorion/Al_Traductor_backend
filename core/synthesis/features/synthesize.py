@@ -1,5 +1,5 @@
 # TODO(davideliseo): Implementar.
-class SynthesizeFeature:
+class SynthesizeSpeechFeature:
     def __call__(
         self,
         language_code: str,

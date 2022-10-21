@@ -7,7 +7,7 @@ from api.tts.controllers.tts import TTSController
 
 
 def register_routes(app: FastAPI) -> FastAPI:
-    # TODO(davideliseo): Heredar controladores de una interfaz común.
+    # TODO(davideliseo): Abstraer controladores a una interfaz común.
     controllers = [
         ConnectionController(app),
         TranslateController(app),

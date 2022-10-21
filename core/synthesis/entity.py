@@ -1,7 +1,7 @@
 from pydantic import BaseModel
 
 
-class Synthesis(BaseModel):
+class SpeechSynthesis(BaseModel):
     language_code: str
     text: str
     # TODO(davideliseo): Definir.
