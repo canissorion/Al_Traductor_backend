@@ -19,9 +19,5 @@ class TTSController:
             speech = synthesize(*request.dict().values())
             return TTSResponse(speech=speech)
 
-        decorate: t.Callable[
-            [ft.DecoratedCallable],
-            ft.DecoratedCallable,
-        ] = self.app.post("/tts", response_model=TTSResponse)
-
+        decorate = self.app.post("/tts", response_model=TTSResponse)
         return decorate(method)

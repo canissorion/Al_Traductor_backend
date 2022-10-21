@@ -18,9 +18,5 @@ class LanguagesController:
             languages = repository.get_languages()
             return LanguagesResponse(languages=languages)
 
-        decorate: t.Callable[
-            [ft.DecoratedCallable],
-            ft.DecoratedCallable,
-        ] = self.app.get("/languages", response_model=LanguagesResponse)
-
+        decorate = self.app.get("/languages", response_model=LanguagesResponse)
         return decorate(method)

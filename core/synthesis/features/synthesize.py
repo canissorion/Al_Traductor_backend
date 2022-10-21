@@ -5,4 +5,4 @@ class SynthesizeSpeechFeature:
         language_code: str,
         text: str,
     ) -> str:
-        return NotImplemented.__str__()
+        return f"{__class__.__name__}: Not implemented."

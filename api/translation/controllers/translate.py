@@ -20,9 +20,5 @@ class TranslateController:
             translation = translate(*request.dict().values())
             return TranslationResponse(translation=translation)
 
-        decorate: t.Callable[
-            [ft.DecoratedCallable],
-            ft.DecoratedCallable,
-        ] = self.app.post("/translate", response_model=TranslationResponse)
-
+        decorate = self.app.post("/translate", response_model=TranslationResponse)
         return decorate(method)

@@ -18,9 +18,5 @@ class ConnectionController:
         def method() -> ConnectionResponse:
             return ConnectionResponse(status="OK")
 
-        decorate: t.Callable[
-            [ft.DecoratedCallable],
-            ft.DecoratedCallable,
-        ] = self.app.get("/connection", response_model=ConnectionResponse)
-
+        decorate = self.app.get("/connection", response_model=ConnectionResponse)
         return decorate(method)
