@@ -23,7 +23,7 @@ class LanguagesRepository:
     def get_api_languages(self) -> list[Language] | None:
         languages = self.get_languages()
 
-        def filter_by_api(language: Language) -> bool:
-            return language.model == LanguageModel.API
+        def filter_by_cloud(language: Language) -> bool:
+            return language.model == LanguageModel.CLOUD
 
-        return list(filter(filter_by_api, languages))
+        return list(filter(filter_by_cloud, languages))

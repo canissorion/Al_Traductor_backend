@@ -4,13 +4,13 @@ from pydantic import BaseModel
 from core.language.traits.entity import LanguageTraits
 
 
-class LanguageModel(Enum):
+class LanguageModel(str, Enum):
     ML = "ml"
-    API = "api"
+    CLOUD = "cloud"
 
 
 class Language(BaseModel):
     name: str
     code: str
-    model: LanguageModel | None = LanguageModel.API
+    model: LanguageModel | None = LanguageModel.CLOUD
     traits: LanguageTraits | None = LanguageTraits()

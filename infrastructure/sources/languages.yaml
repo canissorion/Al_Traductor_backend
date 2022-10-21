@@ -1,13 +1,13 @@
 eng:
     name: Inglés
-    model: api
+    model: cloud
     traits:
         source: true
         target: true
         tts: true
 spa:
     name: Español
-    model: api
+    model: cloud
     traits:
         source: true
         target: true
