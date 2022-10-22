@@ -1,0 +1,20 @@
+[tool.poetry]
+name = "backend"
+version = "0.1.0"
+description = "Traductor basado en Cloud y ML con soporte para inglés, español y mapudungún."
+authors = []
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+fastapi = {extras = ["all"], version = "^0.85.1"}
+pydantic = "^1.10.2"
+uvicorn = "^0.18.0"
+pyyaml = "^6.0"
+
+[tool.poetry.group.dev.dependencies]
+black = "^22.10.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
