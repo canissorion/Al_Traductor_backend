@@ -1,8 +1,8 @@
 import typing as t
 from fastapi import FastAPI, types as ft
 
-from api.languages.adapters.response import LanguagesResponse
-from core.language.repository.languages import LanguagesRepository
+from api.languages.adapters.languages_response import LanguagesResponse
+from core.language.repositories.languages_repository import LanguagesRepository
 
 
 class LanguagesController:

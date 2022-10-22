@@ -1,7 +1,7 @@
-from core.language.repository.languages import LanguagesRepository
-from core.translation.translators.cloud_translator import CloudTranslator
-from core.translation.translators.ml_translator import MLTranslator
-from core.translation.translators.translator import Translator
+from core.language.repositories.languages_repository import LanguagesRepository
+from core.translation.repositories.translators.cloud_translator import CloudTranslator
+from core.translation.repositories.translators.ml_translator import MLTranslator
+from core.translation.repositories.translators.translator import Translator
 
 
 class TranslateFeature:

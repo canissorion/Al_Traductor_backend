@@ -1,10 +1,10 @@
 import typing as t
 from fastapi import FastAPI, types as ft
 
-from api.translation.adapters.request import TranslationRequest
-from api.translation.adapters.response import TranslationResponse
-from core.language.repository.languages import LanguagesRepository
-from core.translation.features.translate import TranslateFeature
+from api.translation.adapters.translation_request import TranslationRequest
+from api.translation.adapters.translation_response import TranslationResponse
+from core.language.repositories.languages_repository import LanguagesRepository
+from core.translation.features.translate_feature import TranslateFeature
 
 
 class TranslateController:

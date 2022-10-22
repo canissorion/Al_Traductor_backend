@@ -1,5 +1,5 @@
 import typing as t
-from core.language.entity import Language, LanguageModel
+from core.language.language import Language, LanguageModel
 from infrastructure.storage.yaml import YAMLStorage
 
 
