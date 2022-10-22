@@ -1,7 +1,7 @@
 [tool.poetry]
 name = "backend"
 version = "0.1.0"
-description = "Traductor basado en Cloud y ML con soporte para inglés, español y mapudungún."
+description = "Traductor de mapudungún, español e inglés, basado en modelos ML y servicios Cloud."
 authors = []
 readme = "README.md"
 
