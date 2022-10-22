@@ -1,22 +1,13 @@
-import typing as t
-from fastapi import FastAPI, types as ft
+from api.controller import Controller
 
 from api.languages.adapters.languages_response import LanguagesResponse
 from core.language.repositories.languages_repository import LanguagesRepository
 
 
-class LanguagesController:
-    # FIXME(davideliseo): Dependencia de capa externa.
-    app: FastAPI
-
-    def __init__(self, app: FastAPI):
-        self.app = app
-
-    def register(self) -> ft.DecoratedCallable:
-        def method() -> LanguagesResponse:
+class LanguagesController(Controller):
+    def register(self) -> None:
+        @self.app.get("/languages", response_model=LanguagesResponse)
+        def get() -> LanguagesResponse:
             repository = LanguagesRepository()
             languages = repository.get_languages()
             return LanguagesResponse(languages=languages)
-
-        decorate = self.app.get("/languages", response_model=LanguagesResponse)
-        return decorate(method)

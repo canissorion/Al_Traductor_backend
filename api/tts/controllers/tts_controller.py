@@ -13,11 +13,9 @@ class TTSController:
     def __init__(self, app: FastAPI):
         self.app = app
 
-    def register(self) -> ft.DecoratedCallable:
-        def method(request: TTSRequest) -> TTSResponse:
+    def register(self) -> None:
+        @self.app.post("/tts", response_model=TTSResponse)
+        def post(request: TTSRequest) -> TTSResponse:
             synthesize = SynthesizeSpeechFeature()
             speech = synthesize(*request.dict().values())
             return TTSResponse(speech=speech)
-
-        decorate = self.app.post("/tts", response_model=TTSResponse)
-        return decorate(method)
