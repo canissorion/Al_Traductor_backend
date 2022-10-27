@@ -1,9 +1,11 @@
 from injector import inject
 
-from core.language.repositories.languages_repository import LanguagesRepository
-from core.translation.repositories.translators.cloud_translator import CloudTranslator
-from core.translation.repositories.translators.ml_translator import MLTranslator
-from core.translation.repositories.translators.translator import Translator
+from core.domain.language.repositories.languages_repository import LanguagesRepository
+from core.domain.translation.repositories.translators.cloud_translator import (
+    CloudTranslator,
+)
+from core.domain.translation.repositories.translators.ml_translator import MLTranslator
+from core.domain.translation.repositories.translators.translator import Translator
 
 
 class TranslateFeature:

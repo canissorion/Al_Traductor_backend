@@ -3,7 +3,7 @@ from injector import Injector
 from api.controller import Controller
 from api.translation.adapters.translation_request import TranslationRequest
 from api.translation.adapters.translation_response import TranslationResponse
-from core.translation.features.translate_feature import TranslateFeature
+from core.domain.translation.features.translate_feature import TranslateFeature
 
 
 class TranslateController(Controller):

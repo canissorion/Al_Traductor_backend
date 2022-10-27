@@ -1,4 +1,4 @@
-from core.translation.repositories.translators.translator import Translator
+from core.domain.translation.repositories.translators.translator import Translator
 
 
 class CloudTranslator(Translator):

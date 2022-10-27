@@ -1,5 +1,5 @@
 from pydantic import BaseModel
-from core.language.language import Language
+from core.domain.language.language import Language
 
 
 class LanguagesResponse(BaseModel):

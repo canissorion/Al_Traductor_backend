@@ -3,7 +3,7 @@ from injector import inject
 
 from api.controller import Controller
 from api.languages.adapters.languages_response import LanguagesResponse
-from core.language.repositories.languages_repository import LanguagesRepository
+from core.domain.language.repositories.languages_repository import LanguagesRepository
 
 
 class LanguagesController(Controller):

@@ -1,5 +1,5 @@
 from typing import Iterator
-from core.language.language import Language, LanguageModel
+from core.domain.language.language import Language, LanguageModel
 from infrastructure.storage.yaml import YAMLStorage
 
 
