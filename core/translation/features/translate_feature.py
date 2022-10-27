@@ -1,4 +1,4 @@
-from injector import Injector, inject
+from injector import inject
 
 from core.language.repositories.languages_repository import LanguagesRepository
 from core.translation.repositories.translators.cloud_translator import CloudTranslator
@@ -30,10 +30,11 @@ class TranslateFeature:
     ) -> Translator:
         codes = (source_language_code, target_language_code)
         ml_languages = self.languages_repository.get_ml_languages()
-        ml_codes = (language.code for language in ml_languages)
 
         # Si ninguno de los dos idiomas es de tipo ML, se usa el traductor Cloud.
-        if set(ml_codes).isdisjoint(codes):
+        if ml_languages is None or set(
+            language.code for language in ml_languages
+        ).isdisjoint(codes):
             return CloudTranslator(*codes)
 
         return MLTranslator(*codes)

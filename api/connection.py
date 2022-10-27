@@ -10,5 +10,5 @@ class ConnectionResponse(BaseModel):
 class ConnectionController(Controller):
     def register(self) -> None:
         @self.app.get("/connection", response_model=ConnectionResponse)
-        def method() -> ConnectionResponse:
+        def _() -> ConnectionResponse:
             return ConnectionResponse(status="OK")

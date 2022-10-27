@@ -9,7 +9,7 @@ from core.translation.features.translate_feature import TranslateFeature
 class TranslateController(Controller):
     def register(self) -> None:
         @self.app.post("/translate", response_model=TranslationResponse)
-        def post(request: TranslationRequest) -> TranslationResponse:
+        def _(request: TranslationRequest) -> TranslationResponse:
             translate = Injector().get(TranslateFeature)
             translation = translate(*request.dict().values())
             return TranslationResponse(translation=translation)
