@@ -1,18 +1,10 @@
-import typing as t
-from fastapi import FastAPI, types as ft
-
+from api.controller import Controller
 from api.tts.adapters.tts_request import TTSRequest
 from api.tts.adapters.tts_response import TTSResponse
 from core.tts.features.synthesize_speech_feature import SynthesizeSpeechFeature
 
 
-class TTSController:
-    # FIXME(davideliseo): Dependencia de capa externa.
-    app: FastAPI
-
-    def __init__(self, app: FastAPI):
-        self.app = app
-
+class TTSController(Controller):
     def register(self) -> None:
         @self.app.post("/tts", response_model=TTSResponse)
         def post(request: TTSRequest) -> TTSResponse:

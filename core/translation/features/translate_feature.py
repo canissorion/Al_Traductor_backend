@@ -1,3 +1,5 @@
+from injector import Injector, inject
+
 from core.language.repositories.languages_repository import LanguagesRepository
 from core.translation.repositories.translators.cloud_translator import CloudTranslator
 from core.translation.repositories.translators.ml_translator import MLTranslator
@@ -7,6 +9,7 @@ from core.translation.repositories.translators.translator import Translator
 class TranslateFeature:
     languages_repository: LanguagesRepository
 
+    @inject
     def __init__(self, languages_repository: LanguagesRepository):
         self.languages_repository = languages_repository
 

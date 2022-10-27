@@ -1,4 +1,6 @@
 from fastapi import FastAPI
+from injector import Injector, singleton
+from typing import Type
 
 from api.connection import ConnectionController
 from api.controller import Controller
@@ -8,14 +10,16 @@ from api.tts.controllers.tts_controller import TTSController
 
 
 def register_routes(app: FastAPI) -> FastAPI:
-    controllers: list[Controller] = [
-        ConnectionController(app),
-        TranslateController(app),
-        TTSController(app),
-        LanguagesController(app),
+    injector = Injector(lambda binder: binder.bind(FastAPI, to=app, scope=singleton))
+
+    controllers: list[Type[Controller]] = [
+        ConnectionController,
+        TranslateController,
+        TTSController,
+        LanguagesController,
     ]
 
     for controller in controllers:
-        controller.register()
+        injector.get(controller).register()
 
     return app
