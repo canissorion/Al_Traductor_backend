@@ -1,5 +1,5 @@
 from pydantic import BaseModel
 
 
-class TranslationResponse(BaseModel):
+class TranslateResponse(BaseModel):
     translation: str | None = None

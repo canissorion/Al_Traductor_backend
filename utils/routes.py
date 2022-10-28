@@ -5,7 +5,7 @@ from typing import Type
 from api.connection import ConnectionController
 from api.controller import Controller
 from api.languages.controllers.languages_controller import LanguagesController
-from api.translation.controllers.translate_controller import TranslateController
+from api.translation.controllers.translation_controller import TranslationController
 from api.tts.controllers.tts_controller import TTSController
 
 
@@ -14,7 +14,7 @@ def register_routes(app: FastAPI) -> FastAPI:
 
     controllers: list[Type[Controller]] = [
         ConnectionController,
-        TranslateController,
+        TranslationController,
         TTSController,
         LanguagesController,
     ]
