@@ -16,11 +16,7 @@ class TranslatePort(
     ]
 ):
     def input(self, request: TranslateRequest) -> TranslateFeatureInput:
-        return TranslateFeatureInput(
-            source_language_code=request.source_language_code,
-            target_language_code=request.target_language_code,
-            text=request.text,
-        )
+        return TranslateFeatureInput(**dict(request))
 
     def output(self, output: TranslateFeatureOutput | None) -> TranslateResponse:
         return TranslateResponse(
