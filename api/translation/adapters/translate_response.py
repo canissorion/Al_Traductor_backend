@@ -1,5 +1,5 @@
-from pydantic import BaseModel
+from core.kernel.response import Response
 
 
-class TranslateResponse(BaseModel):
+class TranslateResponse(Response):
     translation: str | None = None

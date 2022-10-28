@@ -5,7 +5,7 @@ from infrastructure.storage.yaml import YAMLStorage
 
 # TODO(davideliseo): Convertir a singleton.
 class LanguagesRepository:
-    filename = "core/language/repositories/sources/languages_source.yaml"
+    filename = "core/domain/language/repositories/sources/languages_source.yaml"
     storage = YAMLStorage(filename=filename)
 
     def get_languages(self) -> Iterator[Language] | None:

@@ -1,6 +1,6 @@
-from pydantic import BaseModel
+from core.kernel.response import Response
 
 
 # TODO(davideliseo): Definir.
-class TTSResponse(BaseModel):
+class TTSResponse(Response):
     speech: str | None = None

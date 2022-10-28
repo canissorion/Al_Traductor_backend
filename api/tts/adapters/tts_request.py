@@ -1,6 +1,6 @@
-from pydantic import BaseModel
+from core.kernel.request import Request
 
 
-class TTSRequest(BaseModel):
+class TTSRequest(Request):
     language_code: str
     text: str
