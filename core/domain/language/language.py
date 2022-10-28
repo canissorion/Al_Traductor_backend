@@ -16,5 +16,5 @@ class LanguageModel(str, Enum):
 class Language(BaseModel):
     name: str
     code: str
-    model: LanguageModel | None = LanguageModel.CLOUD
+    models: list[LanguageModel] = [LanguageModel.CLOUD]
     traits: LanguageTraits | None = LanguageTraits()

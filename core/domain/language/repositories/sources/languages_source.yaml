@@ -1,20 +1,20 @@
 eng:
     name: Inglés
-    model: cloud
+    models: [cloud]
     traits:
         source: true
         target: true
         tts: true
 spa:
     name: Español
-    model: cloud
+    models: [cloud, ml]
     traits:
         source: true
         target: true
         tts: true
 arn:
     name: Mapudungún
-    model: ml
+    models: [ml]
     traits:
         source: true
         target: true

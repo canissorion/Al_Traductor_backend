@@ -1,4 +1,4 @@
-from typing import Iterator
+from typing import Callable, Iterator
 from core.domain.language.language import Language, LanguageModel
 from infrastructure.storage.yaml import YAMLStorage
 
@@ -15,19 +15,16 @@ class LanguagesRepository:
         return (Language(code=code, **language) for code, language in languages.items())
 
     def get_ml_languages(self) -> Iterator[Language] | None:
+        return self.filter(lambda language: LanguageModel.ML in language.models)
+
+    def get_cloud_languages(self) -> Iterator[Language] | None:
+        return self.filter(lambda language: LanguageModel.CLOUD in language.models)
+
+    def filter(
+        self,
+        filter_by: Callable[[Language], bool],
+    ) -> Iterator[Language] | None:
         if (languages := self.get_languages()) is None:
             return None
 
-        def filter_by_ml(language: Language) -> bool:
-            return language.model == LanguageModel.ML
-
-        return filter(filter_by_ml, languages)
-
-    def get_api_languages(self) -> Iterator[Language] | None:
-        if (languages := self.get_languages()) is None:
-            return None
-
-        def filter_by_cloud(language: Language) -> bool:
-            return language.model == LanguageModel.CLOUD
-
-        return filter(filter_by_cloud, languages)
+        return filter(filter_by, languages)
