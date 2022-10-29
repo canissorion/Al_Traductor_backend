@@ -1,4 +1,5 @@
 from injector import Injector
+from fastapi import HTTPException
 
 from api.controller import Controller
 from api.translation.adapters.translate_port import TranslatePort
@@ -14,5 +15,9 @@ class TranslationController(Controller):
             injector = Injector()
             translate = injector.get(TranslateFeature)
             port = injector.get(TranslatePort)
-            translation = translate.execute(input=port.input(request))
-            return port.output(output=translation)
+
+            try:
+                translation = translate.execute(input=port.input(request))
+                return port.output(output=translation)
+            except Exception as e:
+                raise HTTPException(status_code=500, detail=str(e))

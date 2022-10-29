@@ -1,10 +1,20 @@
+from injector import inject, Injector
+
+from core.kernel.port import Port
+from core.domain.language.repositories.languages_repository import LanguagesRepository
+
+from api.translation.adapters.translate_request import TranslateRequest
+from api.translation.adapters.translate_response import TranslateResponse
+
 from core.domain.translation.features.translate_feature import (
     TranslateFeatureInput,
     TranslateFeatureOutput,
 )
-from core.kernel.port import Port
-from api.translation.adapters.translate_request import TranslateRequest
-from api.translation.adapters.translate_response import TranslateResponse
+
+from core.domain.language.validators.validate_language_code import (
+    ValidateLanguageCode,
+    ValidateLanguageCodeData,
+)
 
 
 class TranslatePort(
@@ -15,7 +25,24 @@ class TranslatePort(
         TranslateFeatureOutput,
     ]
 ):
+    languages_repository: LanguagesRepository
+
+    @inject
+    def __init__(self, languages_repository: LanguagesRepository) -> None:
+        self.languages_repository = languages_repository
+        super().__init__()
+
     def input(self, request: TranslateRequest) -> TranslateFeatureInput:
+        injector = Injector()
+        validator = injector.get(ValidateLanguageCode)
+
+        for language_code in (
+            request.source_language_code,
+            request.target_language_code,
+        ):
+            data = ValidateLanguageCodeData(language_code=language_code)
+            validator.validate(data)
+
         return TranslateFeatureInput(**dict(request))
 
     def output(self, output: TranslateFeatureOutput | None) -> TranslateResponse:

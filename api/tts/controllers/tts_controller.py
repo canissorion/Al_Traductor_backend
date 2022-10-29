@@ -1,4 +1,5 @@
 from injector import Injector
+from fastapi import HTTPException
 
 from api.controller import Controller
 from api.tts.adapters.tts_port import TTSPort
@@ -14,5 +15,9 @@ class TTSController(Controller):
             injector = Injector()
             synthesize = injector.get(SynthesizeSpeechFeature)
             port = injector.get(TTSPort)
-            speech = synthesize.execute(input=port.input(request))
-            return port.output(output=speech)
+
+            try:
+                speech = synthesize.execute(input=port.input(request))
+                return port.output(output=speech)
+            except Exception as e:
+                raise HTTPException(status_code=500, detail=str(e))
