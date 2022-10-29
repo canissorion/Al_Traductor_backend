@@ -1,4 +1,5 @@
 from injector import inject
+from core.domain.language.language import LanguageModel
 
 from core.kernel.feature.feature import Feature
 from core.kernel.feature.feature_input import FeatureInput
@@ -56,8 +57,7 @@ class TranslateFeature(Feature[TranslateFeatureInput, TranslateFeatureOutput]):
         return CloudTranslator(*codes)
 
     def all_ml_languages(self, codes: set[str]) -> bool:
-        if (ml_languages := self.languages_repository.get_ml_languages()) is None:
-            return False
+        ml_languages = self.languages_repository.query(models={LanguageModel.ML})
 
         # Se comprueba que los códigos sean un subconjunto de los idiomas ML.
         return codes <= {language.code for language in ml_languages}

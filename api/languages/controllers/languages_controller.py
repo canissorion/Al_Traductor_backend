@@ -17,7 +17,5 @@ class LanguagesController(Controller):
     def register(self) -> None:
         @self.app.get("/languages", response_model=LanguagesResponse)
         def _() -> LanguagesResponse:
-            if (languages := self.languages_repository.get_languages()) is None:
-                return LanguagesResponse()
-
+            languages = self.languages_repository.all()
             return LanguagesResponse(languages=list(languages))

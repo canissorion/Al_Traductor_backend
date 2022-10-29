@@ -16,7 +16,7 @@ class ValidateLanguageCode(Validator[ValidateLanguageCodeData]):
         self.languages_repository = languages_repository
 
     def validate(self, data: ValidateLanguageCodeData) -> None:
-        if (languages := self.languages_repository.get_languages()) is None:
+        if not (languages := self.languages_repository.all()):
             raise NoLanguagesFoundError()
 
         language_codes = {language.code for language in languages}
