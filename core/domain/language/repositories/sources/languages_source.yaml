@@ -1,11 +1,11 @@
-eng:
+en:
     name: Inglés
     models: [cloud]
     traits:
         source: true
         target: true
         tts: true
-spa:
+es:
     name: Español
     models: [cloud, ml]
     traits:
