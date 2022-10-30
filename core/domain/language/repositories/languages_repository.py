@@ -22,3 +22,6 @@ class LanguagesRepository:
         filter_by: Callable[[Language], bool],
     ) -> Iterator[Language]:
         return filter(filter_by, self.all())
+
+    def get(self, code: str) -> Language | None:
+        return next(self.filter(lambda language: language.code == code), None)

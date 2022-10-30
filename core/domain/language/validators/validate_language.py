@@ -20,7 +20,6 @@ class ValidateLanguage(Validator[ValidateLanguageData]):
             raise NoLanguagesFoundError()
 
         language_codes = {language.code for language in languages}
-
         if data.language_code not in language_codes:
             raise NoLanguageFoundError(data.language_code)
 
