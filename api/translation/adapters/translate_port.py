@@ -11,9 +11,9 @@ from core.domain.translation.features.translate_feature import (
     TranslateFeatureOutput,
 )
 
-from core.domain.language.validators.validate_language_code import (
-    ValidateLanguageCode,
-    ValidateLanguageCodeData,
+from core.domain.language.validators.validate_language import (
+    ValidateLanguage,
+    ValidateLanguageData,
 )
 
 
@@ -34,13 +34,13 @@ class TranslatePort(
 
     def input(self, request: TranslateRequest) -> TranslateFeatureInput:
         injector = Injector()
-        validator = injector.get(ValidateLanguageCode)
+        validator = injector.get(ValidateLanguage)
 
         for language_code in (
             request.source_language_code,
             request.target_language_code,
         ):
-            data = ValidateLanguageCodeData(language_code=language_code)
+            data = ValidateLanguageData(language_code=language_code)
             validator.validate(data)
 
         return TranslateFeatureInput(**dict(request))
