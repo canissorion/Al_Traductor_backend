@@ -1,11 +1,10 @@
-# TODO(davideliseo): Implementar.
 from core.kernel.feature.feature import Feature
 from core.kernel.feature.feature_input import FeatureInput
 from core.kernel.feature.feature_output import FeatureOutput
 
 
 class SynthesizeSpeechFeatureInput(FeatureInput):
-    language_code: str
+    source: str
     text: str
 
 
@@ -13,6 +12,7 @@ class SynthesizeSpeechFeatureOutput(FeatureOutput):
     pass
 
 
+# TODO(davideliseo): Implementar.
 class SynthesizeSpeechFeature(
     Feature[SynthesizeSpeechFeatureInput, SynthesizeSpeechFeatureOutput]
 ):

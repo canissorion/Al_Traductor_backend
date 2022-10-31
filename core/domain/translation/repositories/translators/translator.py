@@ -2,12 +2,12 @@ from abc import ABCMeta, abstractmethod
 
 
 class Translator(metaclass=ABCMeta):
-    source_language_code: str
-    target_language_code: str
+    source: str
+    target: str
 
-    def __init__(self, source_language_code: str, target_language_code: str) -> None:
-        self.source_language_code = source_language_code
-        self.target_language_code = target_language_code
+    def __init__(self, source: str, target: str) -> None:
+        self.source = source
+        self.target = target
 
     @abstractmethod
     def translate(self, text: str) -> str | None:

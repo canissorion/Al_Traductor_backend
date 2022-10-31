@@ -14,8 +14,8 @@ from core.domain.translation.repositories.translators.cloud_translator import (
 
 
 class TranslateFeatureInput(FeatureInput):
-    source_language_code: str
-    target_language_code: str
+    source: str
+    target: str
     model: LanguageModel | None = None
     text: str
 
@@ -36,29 +36,24 @@ class TranslateFeature(Feature[TranslateFeatureInput, TranslateFeatureOutput]):
 
     def translate(
         self,
-        source_language_code: str,
-        target_language_code: str,
+        source: str,
+        target: str,
         model: LanguageModel | None,
         text: str,
     ) -> str | None:
-        if source_language_code == target_language_code:
+        if source == target:
             return text
 
-        translator = self.get_translator(
-            source_language_code,
-            target_language_code,
-            model,
-        )
-
+        translator = self.get_translator(source, target, model)
         return translator.translate(text)
 
     def get_translator(
         self,
-        source_language_code: str,
-        target_language_code: str,
+        source: str,
+        target: str,
         model: LanguageModel | None,
     ) -> Translator:
-        codes = (source_language_code, target_language_code)
+        codes = (source, target)
         match model:
             case LanguageModel.ML:
                 return MLTranslator(*codes)

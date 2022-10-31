@@ -1,6 +1,6 @@
 from injector import Injector
-from core.domain.language.validators.validate_language import (
-    ValidateLanguage,
+from core.domain.language.validators.language_validator import (
+    LanguageValidator,
     ValidateLanguageData,
 )
 
@@ -23,9 +23,9 @@ class TTSPort(
 ):
     def input(self, request: TTSRequest) -> SynthesizeSpeechFeatureInput:
         injector = Injector()
-        validator = injector.get(ValidateLanguage)
+        validator = injector.get(LanguageValidator)
 
-        validator.validate(ValidateLanguageData(language_code=request.language_code))
+        validator.validate(ValidateLanguageData(code=request.source))
         return SynthesizeSpeechFeatureInput(**dict(request))
 
     def output(self, output: SynthesizeSpeechFeatureOutput | None) -> TTSResponse:

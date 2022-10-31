@@ -1,6 +1,6 @@
 from injector import inject, Injector
-from core.domain.translation.validators.validate_translation_model import (
-    ValidateTranslationModel,
+from core.domain.translation.validators.translation_model_validator import (
+    TranslationModelValidator,
     ValidateTranslationModelData,
 )
 
@@ -15,8 +15,8 @@ from core.domain.translation.features.translate_feature import (
     TranslateFeatureOutput,
 )
 
-from core.domain.language.validators.validate_language import (
-    ValidateLanguage,
+from core.domain.language.validators.language_validator import (
+    LanguageValidator,
     ValidateLanguageData,
 )
 
@@ -38,23 +38,17 @@ class TranslatePort(
 
     def input(self, request: TranslateRequest) -> TranslateFeatureInput:
         injector = Injector()
-        language_validator = injector.get(ValidateLanguage)
-        translation_model_validator = injector.get(ValidateTranslationModel)
+        language_validator = injector.get(LanguageValidator)
+        translation_model_validator = injector.get(TranslationModelValidator)
 
-        for language_code in (
-            request.source_language_code,
-            request.target_language_code,
-        ):
+        for code in (request.source, request.target):
             language_validator.validate(
-                ValidateLanguageData(language_code=language_code)
+                ValidateLanguageData(code=code),
             )
 
             if request.model is not None:
                 translation_model_validator.validate(
-                    ValidateTranslationModelData(
-                        language_code=language_code,
-                        model=request.model,
-                    )
+                    ValidateTranslationModelData(code=code, model=request.model)
                 )
 
         return TranslateFeatureInput(**dict(request))

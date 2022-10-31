@@ -1,6 +1,7 @@
+from pydantic import Field
 from core.kernel.request import Request
 
 
 class TTSRequest(Request):
-    language_code: str
+    source: str = Field(alias="language")
     text: str

@@ -1,17 +1,17 @@
 from injector import inject
 from core.domain.language.language import LanguageModel
-from core.domain.language.validators.validate_language import LanguageNotFoundError
+from core.domain.language.validators.language_validator import LanguageNotFoundError
 
 from core.kernel.validator import ValidationData, ValidationError, Validator
 from core.domain.language.repositories.languages_repository import LanguagesRepository
 
 
 class ValidateTranslationModelData(ValidationData):
-    language_code: str
+    code: str
     model: LanguageModel
 
 
-class ValidateTranslationModel(Validator[ValidateTranslationModelData]):
+class TranslationModelValidator(Validator[ValidateTranslationModelData]):
     languages_repository: LanguagesRepository
 
     @inject
@@ -19,15 +19,12 @@ class ValidateTranslationModel(Validator[ValidateTranslationModelData]):
         self.languages_repository = languages_repository
 
     def validate(self, data: ValidateTranslationModelData) -> None:
-        language = self.languages_repository.get(data.language_code)
-        if language is None:
-            raise LanguageNotFoundError(data.language_code)
+        if (language := self.languages_repository.get(data.code)) is None:
+            raise LanguageNotFoundError(data.code)
         elif data.model not in language.models:
-            raise ModelNotSupportedByLanguageError(data.model, data.language_code)
+            raise ModelNotSupportedByLanguageError(data.model, data.code)
 
 
 class ModelNotSupportedByLanguageError(ValidationError):
-    def __init__(self, model: LanguageModel, language_code: str):
-        super().__init__(
-            f"Model {{{model}}} not supported by {{{language_code}}} language."
-        )
+    def __init__(self, model: LanguageModel, code: str):
+        super().__init__(f"Model {{{model}}} not supported by {{{code}}} language.")

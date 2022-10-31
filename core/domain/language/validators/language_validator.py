@@ -5,10 +5,10 @@ from core.domain.language.repositories.languages_repository import LanguagesRepo
 
 
 class ValidateLanguageData(ValidationData):
-    language_code: str
+    code: str
 
 
-class ValidateLanguage(Validator[ValidateLanguageData]):
+class LanguageValidator(Validator[ValidateLanguageData]):
     languages_repository: LanguagesRepository
 
     @inject
@@ -19,9 +19,9 @@ class ValidateLanguage(Validator[ValidateLanguageData]):
         if not (languages := self.languages_repository.all()):
             raise NoLanguagesFoundError()
 
-        language_codes = {language.code for language in languages}
-        if data.language_code not in language_codes:
-            raise LanguageNotFoundError(data.language_code)
+        codes = {language.code for language in languages}
+        if data.code not in codes:
+            raise LanguageNotFoundError(data.code)
 
 
 class NoLanguagesFoundError(ValidationError):
@@ -30,5 +30,5 @@ class NoLanguagesFoundError(ValidationError):
 
 
 class LanguageNotFoundError(ValidationError):
-    def __init__(self, language_code: str):
-        super().__init__(f"No language found: {{{language_code}}}")
+    def __init__(self, code: str):
+        super().__init__(f"No language found: {{{code}}}")

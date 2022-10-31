@@ -5,7 +5,7 @@ from infrastructure.storage.yaml import YAMLStorage
 
 # TODO(davideliseo): Convertir a singleton.
 class LanguagesRepository:
-    filename = "core/domain/language/repositories/sources/languages_source.yaml"
+    filename = "infrastructure/sources/languages.yaml"
     storage = YAMLStorage(filename=filename)
 
     def all(self) -> Iterator[Language]:
@@ -17,10 +17,7 @@ class LanguagesRepository:
     def query(self, models: set[LanguageModel]) -> Iterator[Language]:
         return self.filter(lambda language: models <= set(language.models))
 
-    def filter(
-        self,
-        filter_by: Callable[[Language], bool],
-    ) -> Iterator[Language]:
+    def filter(self, filter_by: Callable[[Language], bool]) -> Iterator[Language]:
         return filter(filter_by, self.all())
 
     def get(self, code: str) -> Language | None:
