@@ -1,6 +1,6 @@
 from injector import inject
 from core.domain.language.language import LanguageModel
-from core.domain.language.validators.validate_language import NoLanguageFoundError
+from core.domain.language.validators.validate_language import LanguageNotFoundError
 
 from core.kernel.validator import ValidationData, ValidationError, Validator
 from core.domain.language.repositories.languages_repository import LanguagesRepository
@@ -21,7 +21,7 @@ class ValidateTranslationModel(Validator[ValidateTranslationModelData]):
     def validate(self, data: ValidateTranslationModelData) -> None:
         language = self.languages_repository.get(data.language_code)
         if language is None:
-            raise NoLanguageFoundError(data.language_code)
+            raise LanguageNotFoundError(data.language_code)
         elif data.model not in language.models:
             raise ModelNotSupportedByLanguageError(data.model, data.language_code)
 

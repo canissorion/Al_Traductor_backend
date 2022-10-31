@@ -21,7 +21,7 @@ class ValidateLanguage(Validator[ValidateLanguageData]):
 
         language_codes = {language.code for language in languages}
         if data.language_code not in language_codes:
-            raise NoLanguageFoundError(data.language_code)
+            raise LanguageNotFoundError(data.language_code)
 
 
 class NoLanguagesFoundError(ValidationError):
@@ -29,6 +29,6 @@ class NoLanguagesFoundError(ValidationError):
         super().__init__("No languages found.")
 
 
-class NoLanguageFoundError(ValidationError):
+class LanguageNotFoundError(ValidationError):
     def __init__(self, language_code: str):
         super().__init__(f"No language found: {{{language_code}}}")
