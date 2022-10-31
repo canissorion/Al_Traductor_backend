@@ -1,21 +1,25 @@
 en:
     name: Inglés
-    models: [cloud]
-    traits:
-        source: true
-        target: true
-        tts: true
+    models:
+        cloud:
+            features: [translate, tts]
 es:
     name: Español
-    models: [cloud, ml]
-    traits:
-        source: true
-        target: true
-        tts: true
+    models:
+        cloud:
+            features: [translate, tts]
+        ml:
+            features: [translate]
+            availability:
+                mode: include
+                targets: [arn]
+                sources: [arn]
 arn:
     name: Mapudungún
-    models: [ml]
-    traits:
-        source: true
-        target: true
-        tts: true
+    models:
+        ml:
+            features: [translate, tts]
+            availability:
+                mode: include
+                targets: [es]
+                sources: [es]
