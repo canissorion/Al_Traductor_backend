@@ -1,7 +1,10 @@
 from injector import inject
 
 from core.kernel.validator import ValidationData, ValidationError, Validator
-from core.domain.language.repositories.languages_repository import LanguagesRepository
+from core.domain.language.repositories.languages_repository import (
+    LanguagesRepository,
+    codes,
+)
 
 
 class ValidateLanguageData(ValidationData):
@@ -19,8 +22,7 @@ class LanguageValidator(Validator[ValidateLanguageData]):
         if not (languages := self.languages_repository.all()):
             raise NoLanguagesFoundError()
 
-        codes = {language.code for language in languages}
-        if data.code not in codes:
+        if data.code not in codes(languages):
             raise LanguageNotFoundError(data.code)
 
 

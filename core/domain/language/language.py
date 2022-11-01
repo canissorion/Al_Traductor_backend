@@ -12,23 +12,29 @@ class LanguageFeature(str, Enum):
     TTS = "tts"
 
 
-class LanguageAvailabilityMode(str, Enum):
+class LanguageSupportMode(str, Enum):
     INCLUDE = "include"
     EXCLUDE = "exclude"
 
 
-class LanguageAvailability(BaseModel):
-    mode: LanguageAvailabilityMode | None = LanguageAvailabilityMode.EXCLUDE
-    sources: set[str] = set()
+class LanguageSupport(BaseModel):
+    mode: LanguageSupportMode = LanguageSupportMode.EXCLUDE
     targets: set[str] = set()
 
 
 class LanguageModelSettings(BaseModel):
     features: set[LanguageFeature] = set()
-    availability: LanguageAvailability | bool = True
+    support: LanguageSupport = LanguageSupport()
+
+    def includes(self, target: str) -> bool:
+        match self.support.mode:
+            case LanguageSupportMode.EXCLUDE:
+                return target not in self.support.targets
+            case LanguageSupportMode.INCLUDE:
+                return target in self.support.targets
 
 
 class Language(BaseModel):
     name: str
     code: str
-    models: dict[LanguageModel, LanguageModelSettings | bool] = dict()
+    models: dict[LanguageModel, LanguageModelSettings] = dict()

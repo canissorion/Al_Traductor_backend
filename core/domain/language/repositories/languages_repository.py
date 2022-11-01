@@ -3,6 +3,10 @@ from core.domain.language.language import Language, LanguageModel
 from infrastructure.storage.yaml import YAMLStorage
 
 
+def codes(languages: Iterator[Language]) -> Iterator[str]:
+    return (language.code for language in languages)
+
+
 # TODO(davideliseo): Convertir a singleton.
 class LanguagesRepository:
     filename = "infrastructure/sources/languages.yaml"
@@ -14,8 +18,8 @@ class LanguagesRepository:
 
         return (Language(code=code, **language) for code, language in languages.items())
 
-    def query(self, models: set[LanguageModel]) -> Iterator[Language]:
-        return self.filter(lambda language: models <= set(language.models))
+    def query(self, model: LanguageModel) -> Iterator[Language]:
+        return self.filter(lambda language: model in language.models)
 
     def filter(self, filter_by: Callable[[Language], bool]) -> Iterator[Language]:
         return filter(filter_by, self.all())

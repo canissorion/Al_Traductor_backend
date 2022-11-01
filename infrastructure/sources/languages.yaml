@@ -10,16 +10,14 @@ es:
             features: [translate, tts]
         ml:
             features: [translate]
-            availability:
+            support:
                 mode: include
                 targets: [arn]
-                sources: [arn]
 arn:
     name: Mapudungún
     models:
         ml:
             features: [translate, tts]
-            availability:
+            support:
                 mode: include
                 targets: [es]
-                sources: [es]

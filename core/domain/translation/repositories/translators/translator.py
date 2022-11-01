@@ -12,3 +12,6 @@ class Translator(metaclass=ABCMeta):
     @abstractmethod
     def translate(self, text: str) -> str | None:
         pass
+
+    def __repr__(self) -> str:
+        return f"{self.__class__.__name__}({self.source}, {self.target})"
