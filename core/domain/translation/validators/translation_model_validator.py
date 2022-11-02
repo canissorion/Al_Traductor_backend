@@ -27,4 +27,11 @@ class TranslationModelValidator(Validator[ValidateTranslationModelData]):
 
 class ModelNotSupportedByLanguageError(ValidationError):
     def __init__(self, model: LanguageModel, code: str):
-        super().__init__(f"Model {{{model}}} not supported by {{{code}}} language.")
+        super().__init__(f"Model {{{model}}} is not supported by {{{code}}} language.")
+
+
+class ModelNotSupportedByTranslationError(ValidationError):
+    def __init__(self, model: LanguageModel, source: str, target: str):
+        super().__init__(
+            f"Model {{{model}}} is not supported for the {{{source}}} to {{{target}}} translation."
+        )

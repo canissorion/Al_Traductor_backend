@@ -20,8 +20,8 @@ from core.domain.translation.repositories.translators.cloud_translator import (
 class TranslateFeatureInput(FeatureInput):
     source: str
     target: str
-    model: LanguageModel | None = None
     text: str
+    model: LanguageModel | None = None
 
 
 class TranslateFeatureOutput(FeatureOutput):
@@ -42,8 +42,8 @@ class TranslateFeature(Feature[TranslateFeatureInput, TranslateFeatureOutput]):
         self,
         source: str,
         target: str,
-        model: LanguageModel | None,
         text: str,
+        model: LanguageModel | None = None,
     ) -> str | None:
         if source == target:
             return text
@@ -62,15 +62,15 @@ class TranslateFeature(Feature[TranslateFeatureInput, TranslateFeatureOutput]):
         self,
         source: str,
         target: str,
-        model: LanguageModel | None,
+        model: LanguageModel | None = None,
     ) -> Iterator[Translator]:
         def translator(edge: Edge) -> Translator:
-            source, target, model = edge
+            *codes, model = edge
             match model:
                 case LanguageModel.ML:
-                    return MLTranslator(source, target)
+                    return MLTranslator(*codes)
                 case LanguageModel.CLOUD:
-                    return CloudTranslator(source, target)
+                    return CloudTranslator(*codes)
 
         injector = Injector()
         graph = injector.get(LanguagesGraph)

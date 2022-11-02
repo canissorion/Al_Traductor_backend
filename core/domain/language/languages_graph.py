@@ -5,6 +5,9 @@ import networkx as nx  # pyright: ignore
 
 from core.domain.language.language import LanguageModel
 from core.domain.language.repositories.languages_repository import LanguagesRepository
+from core.domain.translation.validators.translation_model_validator import (
+    ModelNotSupportedByTranslationError,
+)
 
 
 Edge: TypeAlias = tuple[str, str, LanguageModel]
@@ -28,9 +31,6 @@ class LanguagesGraph:
             aquella que asume compatibilidad con todos los demás idiomas del
             mismo modelo, exceptuando aquellos que estén excluidos
             explícitamente.
-
-            TODO(davideliseo): Contraer las aristas de los subconjuntos de
-            nodos cuyo subgrafo inducido sea un grafo completo (clique).
             """
             languages = self.languages_repository.query(model)
             for source, target in itertools.permutations(languages, 2):
@@ -60,12 +60,26 @@ class LanguagesGraph:
         self,
         source: str,
         target: str,
-        model: LanguageModel | None,
+        model: LanguageModel | None = None,
     ) -> Iterator[Edge]:
-        def best_model(source: str, target: str) -> LanguageModel:
-            models = set[LanguageModel](self.graph.get_edge_data(source, target).keys())  # pyright: ignore
-            return model if model in models else LanguageModel.CLOUD
-
         path = list[str](nx.shortest_path(self.graph, source, target))  # pyright: ignore
-        return ((*pair, best_model(*pair)) for pair in itertools.pairwise(path))
+        return ((*pair, self.fit_model(*pair, model)) for pair in itertools.pairwise(path))
+
+    def models(self, source: str, target: str) -> set[LanguageModel]:
+        return set[LanguageModel](self.graph.get_edge_data(source, target).keys())  # pyright: ignore
+
+    def fit_model(
+        self,
+        source: str,
+        target: str,
+        model: LanguageModel | None = None,
+    ) -> LanguageModel:
+        models = self.models(source, target)
+
+        if model is None:
+            return min(models, key=LanguageModel.precedence)
+        elif model in models:
+            return model
+
+        raise ModelNotSupportedByTranslationError(model, source, target)
     # fmt: on

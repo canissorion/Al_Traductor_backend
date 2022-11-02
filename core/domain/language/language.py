@@ -1,17 +1,28 @@
-from enum import Enum
+from __future__ import annotations
+from enum import Enum, unique
 from pydantic import BaseModel
+import functools
 
 
+@unique
 class LanguageModel(str, Enum):
     ML = "ml"
     CLOUD = "cloud"
 
+    @staticmethod
+    @functools.cache
+    def precedence(model: LanguageModel) -> int:
+        precedence = {LanguageModel.ML: 0, LanguageModel.CLOUD: 1}
+        return precedence[model]
 
+
+@unique
 class LanguageFeature(str, Enum):
     TRANSLATE = "translate"
     TTS = "tts"
 
 
+@unique
 class LanguageSupportMode(str, Enum):
     INCLUDE = "include"
     EXCLUDE = "exclude"
