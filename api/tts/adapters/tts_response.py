@@ -1,6 +1,11 @@
 from core.kernel.response import Response
 
 
-# TODO(davideliseo): Definir.
 class TTSResponse(Response):
+    """
+    Respuesta de la sintetización de voz.
+
+    TODO(davideliseo): Definir.
+    """
+
     speech: str | None = None

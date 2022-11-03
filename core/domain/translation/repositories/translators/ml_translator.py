@@ -4,6 +4,10 @@ from core.domain.translation.repositories.translators.translator import Translat
 class MLTranslator(Translator):
     """
     Traductor basado en modelos de machine learning.
+
+    Atributos:
+        - source: Idioma de origen.
+        - target: Idioma de destino.
     """
 
     # TODO(davideliseo): Implementar.

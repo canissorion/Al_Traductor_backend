@@ -9,7 +9,18 @@ from core.domain.tts.features.synthesize_speech_feature import SynthesizeSpeechF
 
 
 class TTSController(Controller):
+    """
+    Controlador de la API para sintetizar texto a voz.
+
+    Atributos:
+        - app: Aplicación FastAPI.
+    """
+
     def register(self) -> None:
+        """
+        Registra el endpoint para sintetizar texto a voz.
+        """
+
         @self.app.post("/tts", response_model=TTSResponse)
         def _(request: TTSRequest) -> TTSResponse:
             injector = Injector()

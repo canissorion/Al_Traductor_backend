@@ -7,6 +7,14 @@ from core.domain.language.repositories.languages_repository import LanguagesRepo
 
 
 class LanguagesController(Controller):
+    """
+    Controlador de la API para listar los lenguajes disponibles.
+
+    Atributos:
+        - app: Aplicación FastAPI.
+        - languages_repository: Repositorio de idiomas.
+    """
+
     languages_repository: LanguagesRepository
 
     @inject
@@ -15,6 +23,10 @@ class LanguagesController(Controller):
         super().__init__(app)
 
     def register(self) -> None:
+        """
+        Registra el endpoint para listar los lenguajes disponibles.
+        """
+
         @self.app.get("/languages", response_model=LanguagesResponse)
         def _() -> LanguagesResponse:
             languages = self.languages_repository.all()

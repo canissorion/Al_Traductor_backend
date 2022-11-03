@@ -10,6 +10,12 @@ from api.tts.controllers.tts_controller import TTSController
 
 
 def register_routes(app: FastAPI) -> FastAPI:
+    """
+    Registra las rutas de la API.
+    """
+
+    # Inyector que inyecta las dependencias de la aplicación en los
+    # controladores.
     injector = Injector(lambda binder: binder.bind(FastAPI, to=app, scope=singleton))
 
     controllers: list[Type[Controller]] = [

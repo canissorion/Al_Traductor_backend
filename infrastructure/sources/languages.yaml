@@ -1,3 +1,46 @@
+################################################################################
+#                          Especificación de idiomas                           #
+################################################################################
+# LEER ANTES DE MODIFICAR:
+#
+# Este archivo contiene la especificación de los idiomas que se pueden utilizar
+# en el servicio API, y sus características.
+#
+# La especificación de un idioma se realiza mediante un primer diccionario,
+# cuya llave corresponde al código del idioma, preferentemente según el
+# estándar ISO 639-1, o ISO 639-2, en su defecto.
+#
+# El valor de este diccionario es otro diccionario, que contiene la
+# la información del idioma. La estructura de esta definición está dada por el
+# modelo `core.domain.language.Language`.
+#
+# Ej:
+#
+# en:
+#     name: Inglés
+#     models:
+#         cloud:
+#             features: [translate, tts]
+#             support:
+#                 mode: exclude
+#                 targets: [fr]
+#         ml:
+#             features: [translate]
+#             support:
+#                 mode: include
+#                 targets: [pt, de]
+#
+# El ejemplo anterior define el idioma "Inglés", cuyo código identificador
+# "en". Este idioma tiene 2 modelos asociados:
+#
+# 1. El primer modelo, "cloud", está configurado para permitir las
+# característica de traducción y síntesis de voz con todos los idiomas que
+# también tengan el modelo "cloud", excluyendo el idioma "fr".
+#
+# 2. El segundo modelo, "ml", está configurado permitir la característica de
+# traducción solo para los idiomas "pt" y "de".
+################################################################################
+
 en:
     name: Inglés
     models:

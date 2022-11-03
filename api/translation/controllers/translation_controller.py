@@ -9,7 +9,18 @@ from core.domain.translation.features.translate_feature import TranslateFeature
 
 
 class TranslationController(Controller):
+    """
+    Controlador de la API para traducir texto.
+
+    Atributos:
+        - app: Aplicación FastAPI.
+    """
+
     def register(self) -> None:
+        """
+        Registra el endpoint para traducir texto.
+        """
+
         @self.app.post("/translate", response_model=TranslateResponse)
         def _(request: TranslateRequest) -> TranslateResponse:
             injector = Injector()

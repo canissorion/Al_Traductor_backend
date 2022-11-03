@@ -20,6 +20,23 @@ class Port(
     ],
     metaclass=ABCMeta,
 ):
+    """
+    Clase base para un puerto.
+
+    Un puerto es el componente que se encarga de adaptar los datos de la capa
+    de interfaces y controladores a los de la capa de dominio y características.
+
+    Parámetros genéricos:
+        - TRequest: Tipo de la petición.
+        - TResponse: Tipo de la respuesta.
+        - TFeatureInput: Tipo de los datos de entrada de la característica.
+        - TFeatureOutput: Tipo de los datos de salida de la característica.
+
+    Métodos:
+        - input: Convierte una petición en datos de entrada de una característica.
+        - output: Convierte los datos de salida de una característica en una respuesta.
+    """
+
     @abstractmethod
     def input(self, request: TRequest) -> TFeatureInput:
         pass

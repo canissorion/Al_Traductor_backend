@@ -2,6 +2,17 @@ from abc import ABCMeta, abstractmethod
 
 
 class Translator(metaclass=ABCMeta):
+    """
+    Clase base para los traductores.
+
+    Atributos:
+        - source: Idioma de origen.
+        - target: Idioma de destino.
+
+    Métodos:
+        - translate: Traduce el texto de un idioma a otro.
+    """
+
     source: str
     target: str
 

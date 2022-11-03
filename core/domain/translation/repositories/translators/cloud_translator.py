@@ -4,6 +4,10 @@ from core.domain.translation.repositories.translators.translator import Translat
 class CloudTranslator(Translator):
     """
     Traductor en la nube basado en la API de Google Translate.
+
+    Atributos:
+        - source: Idioma de origen.
+        - target: Idioma de destino.
     """
 
     # TODO(davideliseo): Implementar.

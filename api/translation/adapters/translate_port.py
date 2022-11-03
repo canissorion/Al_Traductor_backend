@@ -29,6 +29,13 @@ class TranslatePort(
         TranslateFeatureOutput,
     ]
 ):
+    """
+    Puertos de entrada y salida para la traducción de texto.
+
+    Atributos:
+        - languages_repository: Repositorio de idiomas.
+    """
+
     languages_repository: LanguagesRepository
 
     @inject
@@ -37,6 +44,10 @@ class TranslatePort(
         super().__init__()
 
     def input(self, request: TranslateRequest) -> TranslateFeatureInput:
+        """
+        Transforma y valida la petición de un controlador en una entrada para
+        la característica de traducción.
+        """
         injector = Injector()
         language_validator = injector.get(LanguageValidator)
         translation_model_validator = injector.get(TranslationModelValidator)
@@ -54,6 +65,10 @@ class TranslatePort(
         return TranslateFeatureInput(**dict(request))
 
     def output(self, output: TranslateFeatureOutput | None) -> TranslateResponse:
+        """
+        Transforma la salida de la característica de traducción en una
+        respuesta para un controlador.
+        """
         return TranslateResponse(
             translation=str(output.translation) if output is not None else None
         )

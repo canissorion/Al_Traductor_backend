@@ -8,10 +8,24 @@ from core.domain.language.repositories.languages_repository import (
 
 
 class ValidateLanguageData(ValidationData):
+    """
+    Información del idioma a validar.
+
+    Atributos:
+        - code: Código del idioma.
+    """
+
     code: str
 
 
 class LanguageValidator(Validator[ValidateLanguageData]):
+    """
+    Validador de idiomas.
+
+    Atributos:
+        - languages_repository: Repositorio de idiomas.
+    """
+
     languages_repository: LanguagesRepository
 
     @inject
@@ -19,6 +33,9 @@ class LanguageValidator(Validator[ValidateLanguageData]):
         self.languages_repository = languages_repository
 
     def validate(self, data: ValidateLanguageData) -> None:
+        """
+        Valida el idioma, comprobando que exista en el repositorio de idiomas.
+        """
         if not (languages := self.languages_repository.all()):
             raise NoLanguagesFoundError()
 
@@ -27,10 +44,19 @@ class LanguageValidator(Validator[ValidateLanguageData]):
 
 
 class NoLanguagesFoundError(ValidationError):
+    """
+    Error de validación producido cuando el repositorio de idiomas está vacío.
+    """
+
     def __init__(self):
         super().__init__("No languages found.")
 
 
 class LanguageNotFoundError(ValidationError):
+    """
+    Error de validación producido cuando no se encuentra un idioma en el
+    repositorio.
+    """
+
     def __init__(self, code: str):
         super().__init__(f"No language found: {{{code}}}")
