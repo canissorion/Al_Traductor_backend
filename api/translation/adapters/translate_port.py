@@ -55,5 +55,5 @@ class TranslatePort(
 
     def output(self, output: TranslateFeatureOutput | None) -> TranslateResponse:
         return TranslateResponse(
-            translation=str(output.value) if output is not None else None
+            translation=str(output.translation) if output is not None else None
         )

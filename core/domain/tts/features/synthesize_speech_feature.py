@@ -9,7 +9,7 @@ class SynthesizeSpeechFeatureInput(FeatureInput):
 
 
 class SynthesizeSpeechFeatureOutput(FeatureOutput):
-    pass
+    speech: str | None = None
 
 
 # TODO(davideliseo): Implementar.
@@ -21,5 +21,5 @@ class SynthesizeSpeechFeature(
         input: SynthesizeSpeechFeatureInput,
     ) -> SynthesizeSpeechFeatureOutput:
         return SynthesizeSpeechFeatureOutput(
-            value=f"{__class__.__name__}: Not implemented."
+            speech=f"{__class__.__name__}: Not implemented."
         )

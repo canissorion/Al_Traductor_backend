@@ -25,7 +25,7 @@ class TranslateFeatureInput(FeatureInput):
 
 
 class TranslateFeatureOutput(FeatureOutput):
-    pass
+    translation: str | None = None
 
 
 class TranslateFeature(Feature[TranslateFeatureInput, TranslateFeatureOutput]):
@@ -36,7 +36,7 @@ class TranslateFeature(Feature[TranslateFeatureInput, TranslateFeatureOutput]):
         self.languages_repository = languages_repository
 
     def execute(self, input: TranslateFeatureInput) -> TranslateFeatureOutput:
-        return TranslateFeatureOutput(value=self.translate(**dict(input)))
+        return TranslateFeatureOutput(translation=self.translate(**dict(input)))
 
     def translate(
         self,

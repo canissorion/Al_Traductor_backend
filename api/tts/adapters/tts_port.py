@@ -29,4 +29,4 @@ class TTSPort(
         return SynthesizeSpeechFeatureInput(**dict(request))
 
     def output(self, output: SynthesizeSpeechFeatureOutput | None) -> TTSResponse:
-        return TTSResponse(speech=str(output.value) if output is not None else None)
+        return TTSResponse(speech=str(output.speech) if output is not None else None)
