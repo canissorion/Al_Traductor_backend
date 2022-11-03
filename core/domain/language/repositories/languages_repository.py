@@ -18,7 +18,7 @@ class LanguagesRepository:
     TODO(davideliseo): Convertir a singleton.
     """
 
-    filename = "infrastructure/sources/languages.yaml"
+    filename = "core/domain/language/repositories/sources/languages_source.yaml"
     storage = YAMLStorage(filename=filename)
 
     def all(self) -> Iterator[Language]:
