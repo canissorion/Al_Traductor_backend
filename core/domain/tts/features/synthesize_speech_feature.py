@@ -29,18 +29,12 @@ class SynthesizeSpeechFeatureOutput(FeatureOutput):
     speech: str | None = None
 
 
-class SynthesizeSpeechFeature(
-    Feature[SynthesizeSpeechFeatureInput, SynthesizeSpeechFeatureOutput]
-):
+class SynthesizeSpeechFeature(Feature[SynthesizeSpeechFeatureInput, SynthesizeSpeechFeatureOutput]):
     """
     Característica de síntesis de voz.
 
     TODO(davideliseo): Implementar.
     """
 
-    def execute(
-        self, input: SynthesizeSpeechFeatureInput
-    ) -> SynthesizeSpeechFeatureOutput:
-        return SynthesizeSpeechFeatureOutput(
-            speech=f"{__class__.__name__}: Not implemented."
-        )
+    def execute(self, input: SynthesizeSpeechFeatureInput) -> SynthesizeSpeechFeatureOutput:
+        return SynthesizeSpeechFeatureOutput(speech=f"{__class__.__name__}: Not implemented.")

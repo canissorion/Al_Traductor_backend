@@ -69,8 +69,17 @@ class TranslationGraph:
             greedy_edges(model=LanguageModel.CLOUD),
         )
 
+    def models(self, source: str, target: str) -> set[LanguageModel]:
+        """
+        Determina los modelos de traducción compatibles entre dos idiomas.
+        """
+        return set(self.graph.get_edge_data(source, target).keys())  # pyright: ignore
+
     def path(
-        self, source: str, target: str, model: LanguageModel | None = None
+        self,
+        source: str,
+        target: str,
+        model: LanguageModel | None = None,
     ) -> Iterator[Edge]:
         """
         Determina la trayectoria de traducción más corta entre dos idiomas.
@@ -78,14 +87,11 @@ class TranslationGraph:
         path = list[str](shortest_path(self.graph, source, target))  # pyright: ignore
         return ((*pair, self.fit_model(*pair, model)) for pair in pairwise(path))
 
-    def models(self, source: str, target: str) -> set[LanguageModel]:
-        """
-        Determina los modelos de traducción compatibles entre dos idiomas.
-        """
-        return set(self.graph.get_edge_data(source, target).keys())  # pyright: ignore
-
     def fit_model(
-        self, source: str, target: str, model: LanguageModel | None = None
+        self,
+        source: str,
+        target: str,
+        model: LanguageModel | None = None,
     ) -> LanguageModel:
         """
         Determina el modelo de traducción más adecuado entre dos idiomas.

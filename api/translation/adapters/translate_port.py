@@ -59,7 +59,7 @@ class TranslatePort(
 
             if request.model is not None:
                 translation_model_validator.validate(
-                    ValidateTranslationModelData(code=code, model=request.model)
+                    ValidateTranslationModelData(code=code, model=request.model),
                 )
 
         return TranslateFeatureInput(**dict(request))
@@ -70,5 +70,5 @@ class TranslatePort(
         respuesta para un controlador.
         """
         return TranslateResponse(
-            translation=str(output.translation) if output is not None else None
+            translation=str(output.translation) if output is not None else None,
         )

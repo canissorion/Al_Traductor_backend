@@ -11,14 +11,8 @@ from core.domain.language.repositories.languages_repository import LanguagesRepo
 
 from core.domain.translation.repositories.translators.translator import Translator
 from core.domain.translation.repositories.translators.ml_translator import MLTranslator
-from core.domain.translation.repositories.translators.cloud_translator import (
-    CloudTranslator,
-)
-
-from core.domain.translation.repositories.translation_graph import (
-    Edge,
-    TranslationGraph,
-)
+from core.domain.translation.repositories.translators.cloud_translator import CloudTranslator
+from core.domain.translation.repositories.translation_graph import Edge, TranslationGraph
 
 
 class TranslateFeatureInput(FeatureInput):
