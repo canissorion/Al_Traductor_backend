@@ -3,7 +3,11 @@ from injector import inject
 from itertools import chain, pairwise, permutations
 from networkx import MultiDiGraph, shortest_path  # pyright: ignore
 
-from core.domain.language.language import LanguageModel
+from core.domain.language.language import (
+    LanguageModel,
+    LazyLanguageModelSettings,
+    GreedyLanguageModelSettings,
+)
 from core.domain.language.repositories.languages_repository import LanguagesRepository
 from core.domain.translation.validators.translation_model_validator import (
     ModelNotSupportedByTranslationError,
@@ -44,7 +48,7 @@ class TranslationGraph:
             demás idiomas del mismo modelo, exceptuando los que estén excluidos
             explícitamente.
             """
-            languages = self.languages_repository.query(model)
+            languages = self.languages_repository.model(model, kind=GreedyLanguageModelSettings)
             return (
                 (source.code, target.code, model)
                 for source, target in permutations(languages, 2)
@@ -57,11 +61,11 @@ class TranslationGraph:
             es decir, aquellas que asumen compatibilidad solo con los idiomas
             del mismo modelo que estén incluidos explícitamente.
             """
-            languages = self.languages_repository.query(model)
+            languages = self.languages_repository.model(model, kind=LazyLanguageModelSettings)
             return (
                 (language.code, target, model)
                 for language in languages
-                for target in language.models[model].support.targets
+                for target in language.models[model].targets
             )
 
         return chain(

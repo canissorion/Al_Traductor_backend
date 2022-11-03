@@ -21,14 +21,10 @@
 #     models:
 #         cloud:
 #             features: [translate, tts]
-#             support:
-#                 mode: exclude
-#                 targets: [fr]
+#             exclude: [fr]
 #         ml:
 #             features: [translate]
-#             support:
-#                 mode: include
-#                 targets: [pt, de]
+#             include: [pt, de]
 #
 # El ejemplo anterior define el idioma "Inglés", cuyo código identificador
 # "en". Este idioma tiene 2 modelos asociados:
@@ -53,14 +49,10 @@ es:
             features: [translate, tts]
         ml:
             features: [translate]
-            support:
-                mode: include
-                targets: [arn]
+            include: [arn]
 arn:
     name: Mapudungún
     models:
         ml:
             features: [translate, tts]
-            support:
-                mode: include
-                targets: [es]
+            include: [es]

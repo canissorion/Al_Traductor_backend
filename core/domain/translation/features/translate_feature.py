@@ -100,20 +100,26 @@ class TranslateFeature(Feature[TranslateFeatureInput, TranslateFeatureOutput]):
         o el más adecuado, en su defecto.
         """
 
-        def translator(edge: Edge) -> Translator:
-            """
-            Obtiene el traductor según el modelo de traducción.
-            """
-            *codes, model = edge
-            match model:
-                case LanguageModel.ML:
-                    return MLTranslator(*codes)
-                case LanguageModel.CLOUD:
-                    return CloudTranslator(*codes)
-
         injector = Injector()
         graph = injector.get(TranslationGraph)
 
         # Se obtiene la ruta de traducción que se debe seguir.
         path = graph.path(source, target, model)
-        return map(translator, path)
+        return map(self.translator, path)
+
+    def translator(self, edge: Edge) -> Translator:
+        """
+        Obtiene el traductor según el modelo de traducción.
+        """
+        *codes, model = edge
+        return self.map(model)(*codes)
+
+    def map(self, model: LanguageModel) -> type[Translator]:
+        """
+        Mapea el modelo de traducción a un traductor.
+        """
+        match model:
+            case LanguageModel.ML:
+                return MLTranslator
+            case LanguageModel.CLOUD:
+                return CloudTranslator

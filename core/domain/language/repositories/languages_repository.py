@@ -1,6 +1,11 @@
 from typing import Callable, Iterator
-from core.domain.language.language import Language, LanguageModel
+
 from infrastructure.storage.yaml import YAMLStorage
+from core.domain.language.language import (
+    Language,
+    LanguageModel,
+    LanguageModelSettings,
+)
 
 
 def codes(languages: Iterator[Language]) -> Iterator[str]:
@@ -30,11 +35,15 @@ class LanguagesRepository:
 
         return (Language(code=code, **language) for code, language in languages.items())
 
-    def query(self, model: LanguageModel) -> Iterator[Language]:
+    def model(
+        self,
+        model: LanguageModel,
+        kind: type[LanguageModelSettings] = LanguageModelSettings,
+    ) -> Iterator[Language]:
         """
         Devuelve los idiomas que coinciden con el modelo de consulta.
         """
-        return self.filter(lambda language: model in language.models)
+        return self.filter(lambda language: type(language.models.get(model, None)) is kind)
 
     def filter(self, by: Callable[[Language], bool]) -> Iterator[Language]:
         """

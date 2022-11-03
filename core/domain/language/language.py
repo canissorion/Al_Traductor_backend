@@ -1,7 +1,8 @@
 from __future__ import annotations
+from abc import ABCMeta, abstractmethod
 from enum import Enum, unique
 from pydantic import BaseModel
-import functools
+from functools import cache
 
 
 @unique
@@ -18,7 +19,7 @@ class LanguageModel(str, Enum):
     CLOUD = "cloud"
 
     @staticmethod
-    @functools.cache
+    @cache
     def precedence(model: LanguageModel) -> int:
         """
         Determina la precedencia de un modelo de traducción.
@@ -41,40 +42,7 @@ class LanguageFeature(str, Enum):
     TTS = "tts"
 
 
-@unique
-class LanguageSupportMode(str, Enum):
-    """
-    Enumeración de los modos de compatibilidad de los idiomas.
-
-    Atributos:
-        - INCLUDE: Modo de compatibilidad de inclusión, o lazy. Indica que el
-          idioma es compatible sólo con los idiomas incluidos explícitamente.
-        - EXCLUDE: Modo de compatibilidad de exclusión, o greedy. Indica que el
-          idioma es compatible con todos los idiomas excepto los excluidos
-          explícitamente.
-    """
-
-    INCLUDE = "include"
-    EXCLUDE = "exclude"
-
-
-class LanguageSupport(BaseModel):
-    """
-    Configuración de compatibilidad de un idioma.
-
-    Dependiendo del modo de compatibilidad, se incluyen o excluyen los idiomas
-    de la configuración.
-
-    Atributos:
-        mode: Modo de compatibilidad.
-        targets: Lista de códigos de idiomas compatibles o incompatibles.
-    """
-
-    mode: LanguageSupportMode = LanguageSupportMode.EXCLUDE
-    targets: set[str] = set()
-
-
-class LanguageModelSettings(BaseModel):
+class LanguageModelSettings(BaseModel, metaclass=ABCMeta):
     """
     Configuración de un modelo de traducción para un idioma.
 
@@ -88,17 +56,52 @@ class LanguageModelSettings(BaseModel):
     """
 
     features: set[LanguageFeature] = set()
-    support: LanguageSupport = LanguageSupport()
+
+    @abstractmethod
+    def includes(self, target: str) -> bool:
+        pass
+
+    @property
+    @abstractmethod
+    def targets(self) -> set[str]:
+        pass
+
+
+class LazyLanguageModelSettings(LanguageModelSettings):
+    """
+    Configuración de tipo lazy de un modelo de traducción para un idioma.
+
+
+    Atributos:
+        - include: Idiomas a incluir.
+    """
+
+    include: set[str]
 
     def includes(self, target: str) -> bool:
-        """
-        Determina si un idioma es compatible de acuerdo a la configuración.
-        """
-        match self.support.mode:
-            case LanguageSupportMode.EXCLUDE:
-                return target not in self.support.targets
-            case LanguageSupportMode.INCLUDE:
-                return target in self.support.targets
+        return target in self.include
+
+    @property
+    def targets(self) -> set[str]:
+        return self.include
+
+
+class GreedyLanguageModelSettings(LanguageModelSettings):
+    """
+    Configuración de tipo greedy de un modelo de traducción para un idioma.
+
+    Atributos:
+        - include: Idiomas a excluir.
+    """
+
+    exclude: set[str] = set()
+
+    def includes(self, target: str) -> bool:
+        return target not in self.exclude
+
+    @property
+    def targets(self) -> set[str]:
+        return self.exclude
 
 
 class Language(BaseModel):
@@ -114,4 +117,11 @@ class Language(BaseModel):
 
     name: str
     code: str
-    models: dict[LanguageModel, LanguageModelSettings] = dict()
+    models: dict[
+        LanguageModel,
+        # El orden de la unión es importante, ya que el modelo lazy no tiene
+        # valor por defecto; el greedy sí. Esto implica que si pydantic
+        # encuentra el atributo "include", reconoce automáticamente el modelo
+        # como lazy, si no, como greedy.
+        LazyLanguageModelSettings | GreedyLanguageModelSettings,
+    ] = dict()
