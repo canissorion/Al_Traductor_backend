@@ -1,5 +1,5 @@
 from core.domain.translation.repositories.translators.translator import Translator
-
+from googletrans import Translator as GoogleTranslator
 
 class CloudTranslator(Translator):
     """
@@ -12,4 +12,5 @@ class CloudTranslator(Translator):
 
     # TODO(davideliseo): Implementar.
     def translate(self, text: str) -> str | None:
-        return f"{__class__.__name__}: Not implemented."
+        response = GoogleTranslator().translate(text,self.target,self.source).text
+        return f"{__class__.__name__}: "+response
