@@ -1,5 +1,6 @@
 from core.domain.translation.repositories.translators.translator import Translator
-from googletrans import Translator as GoogleTranslator
+from googletrans import Translator as GoogleTranslator  # pyright: ignore
+
 
 class CloudTranslator(Translator):
     """
@@ -10,7 +11,5 @@ class CloudTranslator(Translator):
         - target: Idioma de destino.
     """
 
-    # TODO(davideliseo): Implementar.
     def translate(self, text: str) -> str | None:
-        response = GoogleTranslator().translate(text,self.target,self.source).text
-        return f"{__class__.__name__}: "+response
+        return GoogleTranslator().translate(text, self.target, self.source).text  # pyright: ignore
