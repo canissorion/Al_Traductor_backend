@@ -99,7 +99,6 @@ class TranslateFeature(Feature[TranslateFeatureInput, TranslateFeatureOutput]):
         de un idioma a otro, utilizando el modelo de traducción especificado,
         o el más adecuado, en su defecto.
         """
-
         injector = Injector()
         graph = injector.get(TranslationGraph)
 
