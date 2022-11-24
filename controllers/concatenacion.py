@@ -4,7 +4,7 @@
 @author: Facundo Alexandre B. (facundo.alexandreb@utem.cl)
 @created_at: 13/06/2022 14:44PM
 
-Cualquier duda sobre el código, favor contactar al mail.
+Cualquier duda sobre el código favor contactar al mail.
 '''
 
 import json
