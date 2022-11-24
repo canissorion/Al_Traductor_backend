@@ -13,6 +13,7 @@ class LanguageModel(str, Enum):
     Atributos:
         - ML: Modelo de aprendizaje automático basado en Machine Learning.
         - CLOUD: Modelo de traducción basado en la nube.
+        111
     """
 
     ML = "ml"
