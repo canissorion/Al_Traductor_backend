@@ -80,6 +80,16 @@ class TranslationGraph:
     def models(self, source: str, target: str) -> set[LanguageModel]:
         """
         Determina los modelos de traducción compatibles entre dos idiomas.
+
+        Entradas:
+        - source: Idioma de origen.
+            - target: Idioma de destino.
+
+         Salidas:
+            retorna el modelo compatible de los idiomas de entrada.
+            
+    
+
         """
         return set(self.graph.get_edge_data(source, target).keys())  # pyright: ignore
 
@@ -91,6 +101,14 @@ class TranslationGraph:
     ) -> Iterator[Edge]:
         """
         Determina la trayectoria de traducción más corta entre dos idiomas.
+
+         Entradas:
+            - source: Idioma de origen.
+            - target: Idioma de destino.
+            - model: Modelo de traduccion.
+
+         Salidas:
+            retorna la trayectoria mas corta de los idiomas.
         """
         path = list[str](shortest_path(self.graph, source, target))  # pyright: ignore
         return ((*pair, self.fit_model(*pair, model)) for pair in pairwise(path))
@@ -103,6 +121,14 @@ class TranslationGraph:
     ) -> LanguageModel:
         """
         Determina el modelo de traducción más adecuado entre dos idiomas.
+
+         Entradas:
+            - source: Idioma de origen.
+            - target: Idioma de destino.
+            - model: Modelo de traduccion.
+
+        Salidas:
+            retorna el modelo generado.
         """
         models = self.models(source, target)
 

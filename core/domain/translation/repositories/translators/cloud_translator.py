@@ -9,6 +9,9 @@ class CloudTranslator(Translator):
     Atributos:
         - source: Idioma de origen.
         - target: Idioma de destino.
+
+    Salidas:
+        retorna la traduccion de texto.
     """
 
     def translate(self, text: str) -> str | None:
