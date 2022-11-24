@@ -47,6 +47,12 @@ class TranslatePort(
         """
         Transforma y valida la petición de un controlador en una entrada para
         la característica de traducción.
+
+        Entradas:
+            - request: Solicitud de traduccion
+        
+        Salidas:
+            - Entradas de caso de uso de traduccion
         """
         injector = Injector()
         language_validator = injector.get(LanguageValidator)
@@ -62,12 +68,18 @@ class TranslatePort(
                     ValidateTranslationModelData(code=code, model=request.model),
                 )
 
-        return TranslateFeatureInput(**dict(request))
+        return TranslateFeatureInput(**dict(request)) 
 
     def output(self, output: TranslateFeatureOutput | None) -> TranslateResponse:
         """
         Transforma la salida de la característica de traducción en una
         respuesta para un controlador.
+
+        Entradas:
+            - output: Salida de caso de uso de traduccion
+        
+        Salidas:
+            - Respuesta de la traduccion para un controlador
         """
         return TranslateResponse(
             translation=str(output.translation) if output is not None else None,

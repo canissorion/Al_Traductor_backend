@@ -35,6 +35,9 @@ class LanguageValidator(Validator[ValidateLanguageData]):
     def validate(self, data: ValidateLanguageData) -> None:
         """
         Valida el idioma, comprobando que exista en el repositorio de idiomas.
+
+        Entrada: 
+            - data: Informacion del idioma a validar
         """
         if not (languages := self.languages_repository.all()):
             raise NoLanguagesFoundError()

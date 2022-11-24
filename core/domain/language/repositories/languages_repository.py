@@ -42,17 +42,35 @@ class LanguagesRepository:
     ) -> Iterator[Language]:
         """
         Devuelve los idiomas que coinciden con el modelo de consulta.
+
+        Entradas:
+            - model: Modelo de lenguaje
+            - kind: Tipo de modelo de lenguaje
+        
+        Salida:
+            - Retorna los idiomas que coinciden con el modelo de entrada
         """
         return self.filter(lambda language: type(language.models.get(model, None)) is kind)
 
     def filter(self, by: Callable[[Language], bool]) -> Iterator[Language]:
         """
         Devuelve los idiomas que coinciden con el filtro.
+
+        Entrada: 
+            - by: Filtrado de lenguaje
+        
+        Salida:
+            - Retorna los idiomas que coinciden con el filtro
         """
         return filter(by, self.all())
 
     def get(self, code: str) -> Language | None:
         """
         Devuelve el idioma que coincide con el código.
+
+        Entrada:
+            - code: Recibe el codigo
+        Salida:
+            - Retorna el idioma que coincide con el código
         """
         return next(self.filter(lambda language: language.code == code), None)

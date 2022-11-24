@@ -47,6 +47,8 @@ class TranslationGraph:
             greedy, es decir, aquellas que asumen compatibilidad con todos los
             demás idiomas del mismo modelo, exceptuando los que estén excluidos
             explícitamente.
+            
+    
             """
             languages = self.languages_repository.model(model, kind=GreedyLanguageModelSettings)
             return (
@@ -60,6 +62,8 @@ class TranslationGraph:
             Genera las aristas de las configuraciones de modelos de tipo lazy,
             es decir, aquellas que asumen compatibilidad solo con los idiomas
             del mismo modelo que estén incluidos explícitamente.
+
+
             """
             languages = self.languages_repository.model(model, kind=LazyLanguageModelSettings)
             return (

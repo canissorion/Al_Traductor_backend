@@ -23,6 +23,12 @@ class LanguageModel(str, Enum):
     def precedence(model: LanguageModel) -> int:
         """
         Determina la precedencia de un modelo de traducción.
+
+        Entrada:
+            - model: Modelo de lenguaje
+        
+        Retorna: 
+            - Modelo de precedencia 
         """
         precedence = {LanguageModel.ML: 0, LanguageModel.CLOUD: 1}
         return precedence[model]

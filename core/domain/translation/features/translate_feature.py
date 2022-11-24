@@ -62,6 +62,12 @@ class TranslateFeature(Feature[TranslateFeatureInput, TranslateFeatureOutput]):
         """
         Toma las entradas de traducción, ejecuta la traducción y devuelve la
         salida.
+
+        Entradas:
+            - input: Entrada del caso de uso de traduccion.
+        
+        Salidas:
+            - Salida del caso de uso de traduccion.
         """
         return TranslateFeatureOutput(translation=self.translate(**dict(input)))
 
@@ -75,6 +81,16 @@ class TranslateFeature(Feature[TranslateFeatureInput, TranslateFeatureOutput]):
         """
         Traduce el texto de un idioma a otro, utilizando el modelo de
         traducción especificado, o el más adecuado, en su defecto.
+
+        Entradas:
+            - source: Idioma del texto a traducir.
+            - target: Idioma al que se quiere traducir el texto.
+            - text: Texto a traducir.
+            - model: Modelo de traduccion.
+        
+        Salidas: 
+            - Texto traducido.
+
         """
         if source == target:
             return text
@@ -98,6 +114,15 @@ class TranslateFeature(Feature[TranslateFeatureInput, TranslateFeatureOutput]):
         Devuelve los traductores que se deben utilizar para traducir el texto
         de un idioma a otro, utilizando el modelo de traducción especificado,
         o el más adecuado, en su defecto.
+
+        Entradas:
+            - source: Idioma del texto a traducir.
+            - target: Idioma al que se quiere traducir el texto.
+            - model: Modelo de traduccion.
+        
+        Salidas: 
+            - Mapa del traductor.
+
         """
         injector = Injector()
         graph = injector.get(TranslationGraph)
@@ -106,9 +131,16 @@ class TranslateFeature(Feature[TranslateFeatureInput, TranslateFeatureOutput]):
         path = graph.path(source, target, model)
         return map(self.translator, path)
 
-    def translator(self, edge: Edge) -> Translator:
+    def translator(self, edge: Edge) -> Translator: 
         """
         Obtiene el traductor según el modelo de traducción.
+
+        Entradas:
+            - edge: Arista del grafo de traduccion.
+        
+        Salidas:  
+            - Mapa del modelo.
+
         """
         *codes, model = edge
         return self.map(model)(*codes)
@@ -116,6 +148,11 @@ class TranslateFeature(Feature[TranslateFeatureInput, TranslateFeatureOutput]):
     def map(self, model: LanguageModel) -> type[Translator]:
         """
         Mapea el modelo de traducción a un traductor.
+
+        Entradas: 
+            - model: Modelo de lenguaje
+        Salida:
+            - Retorna uno de los dos modelos de traduccion (CLOUD o Machine Learning)
         """
         match model:
             case LanguageModel.ML:

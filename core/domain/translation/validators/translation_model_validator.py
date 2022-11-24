@@ -32,10 +32,18 @@ class TranslationModelValidator(Validator[ValidateTranslationModelData]):
     @inject
     def __init__(self, languages_repository: LanguagesRepository):
         self.languages_repository = languages_repository
+        """
+        Entrada: 
+            - languages_repository: Repositorio de idiomas.
+
+        """
 
     def validate(self, data: ValidateTranslationModelData) -> None:
         """
         Valida el modelo de traducción, comprobando que el idioma lo soporte.
+
+        Entradas: 
+            - data: Validador del modelo de traduccion.
         """
         if (language := self.languages_repository.get(data.code)) is None:
             raise LanguageNotFoundError(data.code)
