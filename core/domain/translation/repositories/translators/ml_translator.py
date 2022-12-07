@@ -12,4 +12,4 @@ class MLTranslator(Translator):
 
     # TODO(davideliseo): Implementar.
     def translate(self, text: str) -> str | None:
-        return f"{__class__.__name__}: Not implemented."
+        raise NotImplementedError("MLTranslator not implemented.")

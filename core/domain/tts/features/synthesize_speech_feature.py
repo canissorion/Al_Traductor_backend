@@ -37,4 +37,4 @@ class SynthesizeSpeechFeature(Feature[SynthesizeSpeechFeatureInput, SynthesizeSp
     """
 
     def execute(self, input: SynthesizeSpeechFeatureInput) -> SynthesizeSpeechFeatureOutput:
-        return SynthesizeSpeechFeatureOutput(speech=f"{__class__.__name__}: Not implemented.")
+        raise NotImplementedError("SynthesizeSpeechFeature not implemented.")
