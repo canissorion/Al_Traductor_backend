@@ -3,6 +3,7 @@ version: "3.9"
 services:
   backend:
     image: backend
+    container_name: api-translator-backend
     restart: always
     build:
       context: .
