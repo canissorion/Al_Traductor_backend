@@ -1,5 +1,8 @@
 # Retrieved from https://github.com/github/gitignore/blob/main/Python.gitignore
 
+# Environment variables
+.env
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
