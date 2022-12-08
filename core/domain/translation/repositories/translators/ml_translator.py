@@ -1,4 +1,5 @@
 from core.domain.translation.repositories.translators.translator import Translator
+from services.translator.model import create_translator
 
 
 class MLTranslator(Translator):
@@ -12,4 +13,4 @@ class MLTranslator(Translator):
 
     # TODO(davideliseo): Implementar.
     def translate(self, text: str) -> str | None:
-        raise NotImplementedError("MLTranslator not implemented.")
+        return create_translator(self.source, self.target, text)
