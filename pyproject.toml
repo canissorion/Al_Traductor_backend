@@ -1,0 +1,27 @@
+[tool.poetry]
+name = "backend"
+version = "0.1.0"
+description = "Traductor de mapudungún, español e inglés, basado en modelos ML y servicios Cloud."
+authors = []
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+fastapi = {extras = ["all"], version = "^0.85.1"}
+pydantic = "^1.10.2"
+uvicorn = "^0.18.0"
+pyyaml = "^6.0"
+injector = "^0.20.1"
+networkx = {extras = ["default"], version = "^2.8.7"}
+googletrans = "4.0.0-rc1"
+
+[tool.poetry.group.dev.dependencies]
+black = "^22.10.0"
+mypy = "^0.982"
+
+[tool.black]
+line-length = 100
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

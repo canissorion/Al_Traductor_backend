@@ -1,10 +1,15 @@
-version: '3.4'
+version: "3.9"
 
 services:
-  altraductorbackend:
-    image: altraductorbackend
+  backend:
+    image: backend
+    container_name: api-translator-backend
+    restart: always
     build:
       context: .
-      dockerfile: ./Dockerfile
+      dockerfile: Dockerfile
     ports:
-      - "5002:5002"
+      - 31415:8000
+    volumes:
+      - .:/app
+      - /app/.venv/

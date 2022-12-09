@@ -1,12 +1,12 @@
-from traductor import translate
-from traductor_ingesp import translate_ingesp
+from fastapi import FastAPI
 
-modelo = 'backend/modelo20k-150-iteraciones.h5'
-dataset = 'backend/mapespanol - reducido - 20k.csv'
-traduccion = translate(modelo,dataset,'buenas tardes')
+from utils.routes import register_routes
 
-#print(traduccion)
 
-#traduccion2 = translate_ingesp ('good morning')
-
-#print(traduccion2)
+def create_app() -> FastAPI:
+    """
+    Inicializa la aplicación.
+    """
+    app = FastAPI()
+    app = register_routes(app)
+    return app
