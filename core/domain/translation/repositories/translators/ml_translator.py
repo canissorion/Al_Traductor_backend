@@ -1,5 +1,5 @@
 from core.domain.translation.repositories.translators.translator import Translator
-from services.translator.model import create_translator
+from services.translator.model import build_translator, TranslatorBuilderMode
 
 
 class MLTranslator(Translator):
@@ -13,4 +13,5 @@ class MLTranslator(Translator):
 
     # TODO(davideliseo): Implementar.
     def translate(self, text: str) -> str | None:
-        return create_translator(self.source, self.target, text)
+        translator = build_translator(self.source, self.target, mode=TranslatorBuilderMode.LOAD)
+        return translator(text)
