@@ -9,7 +9,7 @@ from api.translation.controllers.translation_controller import TranslationContro
 from api.tts.controllers.tts_controller import TTSController
 
 
-def register_routes(app: FastAPI) -> FastAPI:
+def register_routes(app: FastAPI) -> None:
     """
     Registra las rutas de la API.
     """
@@ -27,5 +27,3 @@ def register_routes(app: FastAPI) -> FastAPI:
 
     for controller in controllers:
         injector.get(controller).register()
-
-    return app
