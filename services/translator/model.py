@@ -1,4 +1,3 @@
-import random
 import functools
 import itertools
 import typing as t
@@ -11,7 +10,20 @@ from keras_transformer import get_model, decode
 import tensorflow as tf
 
 
-Seq = t.List[str]
+class Token(str, Enum):
+    PAD = "<PAD>"
+    START = "<START>"
+    END = "<END>"
+
+
+@unique
+class TranslatorBuilderMode(str, Enum):
+    AUTO = "auto"
+    LOAD = "load"
+    TRAIN = "train"
+
+
+Seq = t.List[t.Union[str, Token]]
 Seqs = t.List[Seq]
 Pair = t.Tuple[str, str]
 Pairs = t.List[Pair]
@@ -54,8 +66,6 @@ def parse(path: str, sep: str = ",", reverse: bool = False) -> Pairs:
 
 
 def preprocess(pairs: Pairs) -> t.Tuple[Seqs, Seqs]:
-    # random.shuffle(pairs)
-
     # Se separan las secuencias en palabras.
     split = map(lambda pair: map(split_by_words, pair), pairs)
 
@@ -66,7 +76,7 @@ def preprocess(pairs: Pairs) -> t.Tuple[Seqs, Seqs]:
 
 
 def build_vocab(tokens: Seqs) -> Vocabulary:
-    vocab: Vocabulary = {"<PAD>": 0, "<START>": 1, "<END>": 2}
+    vocab: Vocabulary = {Token.PAD: 0, Token.START: 1, Token.END: 2}
 
     for token in itertools.chain(*tokens):
         if token not in vocab:
@@ -85,15 +95,15 @@ def prepare(
     source_vocab: Vocabulary,
     target_vocab: Vocabulary,
 ) -> t.Tuple[Vectors, Vectors, t.List[Vectors]]:
-    encode_tokens: Seqs = [["<START>"] + tokens + ["<END>"] for tokens in source_tokens]
-    decode_tokens: Seqs = [["<START>"] + tokens + ["<END>"] for tokens in target_tokens]
-    output_tokens: Seqs = [tokens + ["<END>", "<PAD>"] for tokens in target_tokens]
+    encode_tokens: Seqs = [[Token.START] + tokens + [Token.END] for tokens in source_tokens]
+    decode_tokens: Seqs = [[Token.START] + tokens + [Token.END] for tokens in target_tokens]
+    output_tokens: Seqs = [tokens + [Token.END, Token.PAD] for tokens in target_tokens]
 
     source_max_len = len(max(encode_tokens, key=len))
     target_max_len = len(max(decode_tokens, key=len))
 
     def pad(tokens: Seq, max_len: int) -> Seq:
-        return tokens + ["<PAD>"] * (max_len - len(tokens))
+        return tokens + [Token.PAD] * (max_len - len(tokens))
 
     encode_tokens: Seqs = [pad(tokens, source_max_len) for tokens in encode_tokens]
     decode_tokens: Seqs = [pad(tokens, target_max_len) for tokens in decode_tokens]
@@ -116,7 +126,7 @@ def train(
     source_vocab: Vocabulary,
     target_vocab: Vocabulary,
     outpath: str,
-    epochs: int,
+    epochs: int = 15,
 ) -> None:
     encode_input, decode_input, decode_output = prepare(
         source_tokens, target_tokens, source_vocab, target_vocab
@@ -159,13 +169,6 @@ def assemble(source_vocab: Vocabulary, target_vocab: Vocabulary):
     return model
 
 
-@unique
-class TranslatorBuilderMode(str, Enum):
-    AUTO = "auto"
-    LOAD = "load"
-    TRAIN = "train"
-
-
 def get_basepath(source: str, target: str) -> str:
     return f"{path}/translations/{source}_{target}"
 
@@ -185,6 +188,7 @@ def build_translator(
     source: str,
     target: str,
     mode: TranslatorBuilderMode = TranslatorBuilderMode.LOAD,
+    **kwargs: int,
 ) -> t.Callable[[str], str]:
     dspath = get_dspath(source, target)
     reverse = not os.path.isfile(dspath)
@@ -193,8 +197,7 @@ def build_translator(
     if reverse:
         dspath = get_dspath(target, source)
 
-    pairs = parse(dspath)
-    pairs = pairs[: int(len(pairs) * 0.7)]
+    pairs = parse(dspath, sep=",", reverse=reverse)
     source_tokens, target_tokens = preprocess(pairs)
 
     source_vocab = build_vocab(source_tokens)
@@ -215,18 +218,18 @@ def build_translator(
         load(model, outpath)
 
     elif mode == TranslatorBuilderMode.TRAIN:
-        train(model, source_tokens, target_tokens, source_vocab, target_vocab, outpath, epochs=15)
+        train(model, source_tokens, target_tokens, source_vocab, target_vocab, outpath, **kwargs)
 
     def translator(input: str) -> str:
-        tokens: Seq = split_by_words(normalize(input)) + ["<END>", "<PAD>"]
+        tokens: Seq = split_by_words(normalize(input)) + [Token.END, Token.PAD]
         input_tokens: Vector = [source_vocab[token] for token in tokens]
 
         decoded: Vector = decode(
             model,
             input_tokens,
-            start_token=target_vocab["<START>"],
-            end_token=target_vocab["<END>"],
-            pad_token=target_vocab["<PAD>"],
+            start_token=target_vocab[Token.START],
+            end_token=target_vocab[Token.END],
+            pad_token=target_vocab[Token.PAD],
         )
 
         return " ".join(target_vocab_inv[token] for token in decoded[1:-1])
